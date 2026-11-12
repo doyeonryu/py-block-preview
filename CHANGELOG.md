@@ -4,6 +4,11 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.1.3] - 2026-11-12
+
+### Changed
+- The editor title button has its own stacked-blocks icon instead of the built-in `type-hierarchy-sub` icon, which other extensions also use.
+
 ## [0.1.2] - 2026-11-12
 
 ### Changed

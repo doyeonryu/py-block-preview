@@ -4,6 +4,7 @@
 !dist/webview.css
 !dist/*.wasm
 !media/icon.png
+!media/blocks-*.svg
 !package.json
 !README.md
 !CHANGELOG.md
