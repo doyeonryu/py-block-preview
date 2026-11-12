@@ -24,7 +24,7 @@ Python 코드를 에디터 옆에 블록 코딩 화면처럼 보여주는 VS Cod
 2. VS Code 확장 탭 → `…` → **VSIX에서 설치…** 로 파일을 선택합니다.
    또는 터미널에서 `code --install-extension py-block-preview-<버전>.vsix`
 
-VS Code 1.90 이상, 그리고 `.vsix` 설치를 지원하는 Cursor, Windsurf, VSCodium에서 동작합니다.
+VS Code 1.90 이상, 그리고 `.vsix` 설치를 지원하는 Cursor, Windsurf, VSCodium에서 동작합니다. 내 PC에 한 번만 설치하면 WSL, SSH, Dev Container 원격 창에서도 그대로 쓸 수 있습니다.
 
 ## 사용법
 

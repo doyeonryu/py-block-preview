@@ -32,7 +32,7 @@ Python Block Preview is distributed through GitHub Releases for now.
 2. In VS Code, open the Extensions view, click `…` → **Install from VSIX…**, and pick the file.
    Or from a terminal: `code --install-extension py-block-preview-<version>.vsix`
 
-Works in VS Code 1.90+ and VS Code–based editors that accept `.vsix` files (Cursor, Windsurf, VSCodium).
+Works in VS Code 1.90+ and VS Code–based editors that accept `.vsix` files (Cursor, Windsurf, VSCodium). Install it once on your local machine — it also works in WSL, SSH and Dev Container windows.
 
 ## Usage
 

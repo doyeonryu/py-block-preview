@@ -2,7 +2,7 @@
   "name": "py-block-preview",
   "displayName": "Python Block Preview",
   "description": "See the structure of Python code at a glance — functions, classes, call relationships and control flow as live-synced cards beside your editor.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "doyeonryu",
   "author": "doyeonryu",
   "license": "MIT",
@@ -32,6 +32,10 @@
   "categories": [
     "Visualization",
     "Programming Languages"
+  ],
+  "extensionKind": [
+    "ui",
+    "workspace"
   ],
   "activationEvents": [
     "onLanguage:python"
