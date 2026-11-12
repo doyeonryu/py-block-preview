@@ -4,6 +4,14 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-12
+
+### Changed
+- New shortcut: <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>P</kbd> (<kbd>Cmd</kbd>+<kbd>Alt</kbd>+<kbd>P</kbd> on macOS) instead of <kbd>Ctrl</kbd>+<kbd>K</kbd> <kbd>B</kbd>. The same shortcut or the editor title button closes the preview again.
+- The editor title button is named **Block Preview**, and its tooltip shows the shortcut.
+- The preview no longer reopens by itself after a window reload.
+- All UI text is in English.
+
 ## [0.1.1] - 2026-11-12
 
 ### Fixed

@@ -146,7 +146,7 @@ button:hover { background: var(--vscode-button-secondaryHoverBackground, var(--c
 .card-body { padding: 0 10px 8px 26px; }
 .doc { font-style: italic; color: var(--muted); margin-bottom: 4px; }
 .row { display: flex; gap: 8px; padding: 2px 0; align-items: baseline; }
-.row-label { flex: 0 0 64px; color: var(--muted); font-size: 0.85em; white-space: nowrap; }
+.row-label { flex: 0 0 76px; color: var(--muted); font-size: 0.85em; white-space: nowrap; }
 .row-body { flex: 1; min-width: 0; }
 .children { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
 
@@ -336,7 +336,7 @@ body.panning .viewport, body.panning .viewport * { cursor: grabbing !important; 
 }
 .stk.vars > .hat { border-radius: 13px 13px 0 0; cursor: default; }
 .vars-row { display: flex; flex-wrap: wrap; gap: 3px; padding: 6px 10px 0; align-items: baseline; }
-.vars-label { color: var(--muted); font-size: 10px; font-family: var(--vscode-font-family); margin-right: 4px; width: 38px; }
+.vars-label { color: var(--muted); font-size: 10px; font-family: var(--vscode-font-family); margin-right: 4px; width: 42px; }
 .chip.gvar { background: color-mix(in srgb, var(--b-vars) 30%, transparent); color: inherit; }
 
 /* inspector panel */

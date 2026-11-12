@@ -11,7 +11,7 @@ npm install
 npm test          # build + analyzer and webview tests
 ```
 
-Press <kbd>F5</kbd> in VS Code to launch an Extension Development Host with `test/fixtures/sample.py` open, then run **Open Block Preview to the Side**. Run `npm run watch` in a terminal to rebuild on save, and reload the development window (<kbd>Ctrl</kbd>+<kbd>R</kbd>) to pick up changes.
+Press <kbd>F5</kbd> in VS Code to launch an Extension Development Host with `test/fixtures/sample.py` open, then press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>P</kbd> (**Python: Block Preview**). Run `npm run watch` in a terminal to rebuild on save, and reload the development window (<kbd>Ctrl</kbd>+<kbd>R</kbd>) to pick up changes.
 
 Other scripts:
 

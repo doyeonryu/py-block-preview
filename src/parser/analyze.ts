@@ -702,11 +702,11 @@ class Analyzer {
     const visit = (n: Node) => {
       if (out.length >= 50) return;
       if (n.type === 'ERROR') {
-        out.push({ span: spanOf(n), message: `구문 오류: ${oneLine(n.text, 40)}` });
+        out.push({ span: spanOf(n), message: `Syntax error: ${oneLine(n.text, 40)}` });
         return;
       }
       if (n.isMissing) {
-        out.push({ span: spanOf(n), message: `누락: '${n.type}'` });
+        out.push({ span: spanOf(n), message: `Missing '${n.type}'` });
         return;
       }
       if (n.hasError) for (const c of n.children) visit(c);

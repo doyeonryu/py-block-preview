@@ -92,22 +92,22 @@ function render() {
 
 function headerHTML(m: ModuleModel): string {
   const errors = m.errors.length
-    ? `<span class="badge err" ${spanAttrs(m.errors[0].span)} data-jump title="${esc(m.errors.map((e) => `L${e.span.sl + 1} ${e.message}`).join('\n'))}">⚠ 구문 오류 ${m.errors.length}</span>`
+    ? `<span class="badge err" ${spanAttrs(m.errors[0].span)} data-jump title="${esc(m.errors.map((e) => `L${e.span.sl + 1} ${e.message}`).join('\n'))}">⚠ ${m.errors.length} syntax error${m.errors.length > 1 ? 's' : ''}</span>`
     : '';
   const seg = (val: string, cur: string, action: string, label: string, title: string) =>
     `<button class="seg ${val === cur ? 'on' : ''}" data-action="${action}" data-value="${val}" title="${title}">${label}</button>`;
   const modeTools = state.mode === 'canvas'
-    ? `<span class="group">${seg('blocks', state.detail, 'detail', '블록', '함수 안의 블록까지 표시')}${seg('summary', state.detail, 'detail', '요약', '함수 이름과 호출 관계만 표시')}</span>
-       <span class="group"><button data-action="zoom-out" title="축소 (Ctrl+휠)">−</button><button data-action="zoom-in" title="확대 (Ctrl+휠)">+</button><button data-action="fit" title="전체가 한 화면에 들어오게">맞춤</button></span>`
-    : `<span class="group"><button data-action="expand-all">흐름 펼치기</button><button data-action="collapse-all">흐름 접기</button></span>`;
+    ? `<span class="group">${seg('blocks', state.detail, 'detail', 'Blocks', 'Show every statement block')}${seg('summary', state.detail, 'detail', 'Summary', 'Show only names and call links')}</span>
+       <span class="group"><button data-action="zoom-out" title="Zoom out (Ctrl+scroll)">−</button><button data-action="zoom-in" title="Zoom in (Ctrl+scroll)">+</button><button data-action="fit" title="Fit the whole file on screen">Fit</button></span>`
+    : `<span class="group"><button data-action="expand-all">Expand flow</button><button data-action="collapse-all">Collapse flow</button></span>`;
   return `<header>
       <div class="title"><span class="file">${esc(m.fileName)}</span>
-        <span class="muted">${m.lineCount}줄 · 클래스 ${m.stats.classes} · 함수 ${m.stats.functions} · 메서드 ${m.stats.methods}</span>
+        <span class="muted">${m.lineCount} lines · ${m.stats.classes} classes · ${m.stats.functions} functions · ${m.stats.methods} methods</span>
         ${errors}
       </div>
       <div class="toolbar">
-        <span class="group">${seg('canvas', state.mode, 'mode', '캔버스', '블록 작업 화면')}${seg('list', state.mode, 'mode', '목록', '카드 목록')}</span>
-        <input id="filter" type="search" placeholder="이름으로 찾기…" value="${esc(state.filter)}">
+        <span class="group">${seg('canvas', state.mode, 'mode', 'Canvas', 'Block workspace')}${seg('list', state.mode, 'mode', 'List', 'Card list')}</span>
+        <input id="filter" type="search" placeholder="Find by name…" value="${esc(state.filter)}">
         ${modeTools}
       </div>
     </header>`;
@@ -123,16 +123,16 @@ function listHTML(m: ModuleModel): string {
   }
   if (m.globals.length) {
     const body = m.globals.map((g) => `<div class="var" ${spanAttrs(g.span)} data-jump><span class="var-name">${esc(g.name)}</span>${g.detail ? `<span class="var-detail">${esc(g.detail)}</span>` : ''}${usedByBadge(g.name)}</div>`).join('');
-    parts.push(section('globals', `전역 변수 <span class="count">${m.globals.length}</span>`, `<div class="vars">${body}</div>`));
+    parts.push(section('globals', `Globals <span class="count">${m.globals.length}</span>`, `<div class="vars">${body}</div>`));
   }
   const filter = state.filter.trim().toLowerCase();
   const cards = m.defs.map((d) => renderCard(d, filter)).join('');
-  parts.push(`<div class="cards">${cards || (filter ? '<div class="muted pad">필터와 일치하는 정의가 없습니다.</div>' : '')}</div>`);
+  parts.push(`<div class="cards">${cards || (filter ? '<div class="muted pad">No definitions match.</div>' : '')}</div>`);
   if (m.mainFlow.length) {
-    parts.push(section('main', '최상위 실행 코드', `${row('호출 →', renderCalls(m.mainCalls))}<div class="flow">${renderFlow(m.mainFlow)}</div>`));
+    parts.push(section('main', 'Top-level code', `${row('Calls →', renderCalls(m.mainCalls))}<div class="flow">${renderFlow(m.mainFlow)}</div>`));
   }
   if (!m.defs.length && !m.mainFlow.length && !m.imports.length && !m.globals.length) {
-    parts.push('<div class="empty">빈 파일입니다.</div>');
+    parts.push('<div class="empty">This file is empty.</div>');
   }
   return `<div class="list">${parts.join('')}</div>`;
 }
@@ -148,12 +148,12 @@ function section(id: string, title: string, body: string): string {
 function usedByBadge(name: string): string {
   const users: string[] = [];
   for (const d of defIndex.values()) {
-    if (d.globalsWritten.includes(name)) users.push(`${d.qualname} (쓰기)`);
+    if (d.globalsWritten.includes(name)) users.push(`${d.qualname} (writes)`);
     else if (d.globalsRead.includes(name)) users.push(d.qualname);
   }
   if (!users.length) return '';
-  const writes = users.some((u) => u.endsWith('(쓰기)'));
-  return `<span class="mini ${writes ? 'warn' : ''}" title="${esc(users.join('\n'))}">${users.length}개 함수에서 사용${writes ? ' · 쓰기 있음' : ''}</span>`;
+  const writes = users.some((u) => u.endsWith('(writes)'));
+  return `<span class="mini ${writes ? 'warn' : ''}" title="${esc(users.join('\n'))}">used by ${users.length} function${users.length > 1 ? 's' : ''}${writes ? ' · written' : ''}</span>`;
 }
 
 function renderCard(d: DefCard, filter: string): string {
@@ -165,8 +165,8 @@ function renderCard(d: DefCard, filter: string): string {
     : `<span class="sig">(${esc(d.params.join(', '))})</span>${d.returnType ? `<span class="ret"> → ${esc(d.returnType)}</span>` : ''}`;
   const decorators = d.decorators.length ? `<div class="decorators">${d.decorators.map(esc).join(' ')}</div>` : '';
   const badges = [
-    d.hasError ? '<span class="badge err">오류</span>' : '',
-    isUncalled(d) ? '<span class="badge warn" title="이 파일 안에서는 호출하는 곳이 없습니다 (외부에서 쓰일 수는 있음)">호출 안 됨</span>' : '',
+    d.hasError ? '<span class="badge err">error</span>' : '',
+    isUncalled(d) ? '<span class="badge warn" title="Nothing in this file calls it (it may still be used from elsewhere)">unused</span>' : '',
   ].join('');
 
   let body = '';
@@ -176,7 +176,7 @@ function renderCard(d: DefCard, filter: string): string {
     rows.push(detailRows(d));
     if (d.kind !== 'class' && d.flow.length) {
       const open = flowOpen.has(d.id);
-      rows.push(`<div class="flow-toggle" data-toggle-flow="${esc(d.id)}"><span class="twisty">${open ? '▾' : '▸'}</span>실행 흐름 <span class="count">${countFlow(d.flow)}</span></div>`);
+      rows.push(`<div class="flow-toggle" data-toggle-flow="${esc(d.id)}"><span class="twisty">${open ? '▾' : '▸'}</span>Control flow <span class="count">${countFlow(d.flow)}</span></div>`);
       if (open) rows.push(`<div class="flow">${renderFlow(d.flow)}</div>`);
     }
     const children = d.children.map((c) => renderCard(c, filter)).join('');
@@ -190,7 +190,7 @@ function renderCard(d: DefCard, filter: string): string {
         ${decorators}
         <span class="kind">${kindLabel}</span><span class="name">${esc(d.name)}</span>${sig}
       </div>
-      <span class="head-right">${badges}<span class="muted">${lines(d.span)} · ${d.span.el - d.span.sl + 1}줄</span></span>
+      <span class="head-right">${badges}<span class="muted">${lines(d.span)} · ${d.span.el - d.span.sl + 1} lines</span></span>
     </div>
     ${body}
   </div>`;

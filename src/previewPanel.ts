@@ -16,10 +16,16 @@ export class PreviewPanel {
   private version = 0;
   private ready = false;
 
-  static createOrShow(ctx: vscode.ExtensionContext, parser: PythonParser, editor?: vscode.TextEditor) {
-    if (PreviewPanel.current) {
-      PreviewPanel.current.panel.reveal(vscode.ViewColumn.Beside, true);
-      if (editor) PreviewPanel.current.setDocument(editor.document);
+  /** Open the preview beside the editor, or close it if it is already showing */
+  static toggle(ctx: vscode.ExtensionContext, parser: PythonParser, editor?: vscode.TextEditor) {
+    const cur = PreviewPanel.current;
+    if (cur) {
+      if (cur.panel.visible) {
+        cur.panel.dispose();
+      } else {
+        cur.panel.reveal(undefined, true);
+        if (editor?.document.languageId === 'python') cur.setDocument(editor.document);
+      }
       return;
     }
     const panel = vscode.window.createWebviewPanel(
@@ -29,14 +35,6 @@ export class PreviewPanel {
       PreviewPanel.webviewOptions(ctx),
     );
     PreviewPanel.current = new PreviewPanel(panel, ctx, parser, editor?.document);
-  }
-
-  /** 창 다시 열기(Reload) 후 복원 */
-  static revive(panel: vscode.WebviewPanel, ctx: vscode.ExtensionContext, parser: PythonParser, uri?: string) {
-    panel.webview.options = PreviewPanel.webviewOptions(ctx);
-    const doc = vscode.workspace.textDocuments.find((d) => d.uri.toString() === uri)
-      ?? vscode.window.activeTextEditor?.document;
-    PreviewPanel.current = new PreviewPanel(panel, ctx, parser, doc);
   }
 
   private static webviewOptions(ctx: vscode.ExtensionContext): vscode.WebviewOptions & vscode.WebviewPanelOptions {
@@ -97,7 +95,7 @@ export class PreviewPanel {
     if (!this.ready) return; // webview 준비되면 'ready' 메시지에서 다시 호출
     const doc = this.doc;
     if (!doc) {
-      this.post({ type: 'empty', message: 'Python 파일을 열어주세요.' });
+      this.post({ type: 'empty', message: 'Open a Python file to see its blocks.' });
       return;
     }
     const v = ++this.version;
@@ -110,7 +108,7 @@ export class PreviewPanel {
       const ed = vscode.window.visibleTextEditors.find((e) => e.document === doc);
       if (ed) this.post({ type: 'cursor', line: ed.selection.active.line });
     } catch (err) {
-      this.post({ type: 'empty', message: `분석 실패: ${err instanceof Error ? err.message : String(err)}` });
+      this.post({ type: 'empty', message: `Could not analyze this file: ${err instanceof Error ? err.message : String(err)}` });
     }
   }
 
@@ -152,7 +150,7 @@ export class PreviewPanel {
 <title>Blocks</title>
 </head>
 <body>
-<div id="app"><div class="empty">불러오는 중…</div></div>
+<div id="app"><div class="empty">Loading…</div></div>
 <script nonce="${nonce}" src="${js}"></script>
 </body>
 </html>`;
@@ -164,5 +162,3 @@ export class PreviewPanel {
     this.disposables.forEach((d) => d.dispose());
   }
 }
-
-export const PREVIEW_VIEW_TYPE = VIEW_TYPE;

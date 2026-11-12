@@ -25,7 +25,7 @@ export function indexDefs(defs: DefCard[]) {
 }
 
 export function displayName(id: string): string {
-  if (id === '<module>') return '최상위 코드';
+  if (id === '<module>') return 'top-level code';
   return defIndex.get(id)?.qualname ?? id;
 }
 
@@ -39,8 +39,8 @@ export function renderCalls(calls: CallRef[]): string {
   return sorted.map((c) => {
     const label = c.name + (c.count > 1 ? ` ×${c.count}` : '');
     return c.target
-      ? chip(label, 'link', undefined, `data-target="${esc(c.target)}"`, `${displayName(c.target)}(으)로 이동`)
-      : chip(label, 'ext', c.span, '', '외부/내장 호출 — 클릭 시 코드 위치로 이동');
+      ? chip(label, 'link', undefined, `data-target="${esc(c.target)}"`, `Go to ${displayName(c.target)}`)
+      : chip(label, 'ext', c.span, '', 'External or built-in call — click to go to the call site');
   }).join('');
 }
 
@@ -75,16 +75,16 @@ export function stripKeyword(n: FlowNode): string {
 /** Details of one definition: calls, callers, returns, raises, variables */
 export function detailRows(d: DefCard): string {
   const rows: string[] = [];
-  if (d.kind === 'class') rows.push(row('속성', d.attributes.map((a) => varChip(a, 'attr')).join('')));
-  rows.push(row('호출 →', renderCalls(d.calls)));
-  rows.push(row('호출됨 ←', d.calledBy.map((id) => chip(displayName(id), 'link', undefined, id === '<module>' ? 'data-target="<module>"' : `data-target="${esc(id)}"`)).join('')));
+  if (d.kind === 'class') rows.push(row('Attributes', d.attributes.map((a) => varChip(a, 'attr')).join('')));
+  rows.push(row('Calls →', renderCalls(d.calls)));
+  rows.push(row('Called by ←', d.calledBy.map((id) => chip(displayName(id), 'link', undefined, id === '<module>' ? 'data-target="<module>"' : `data-target="${esc(id)}"`)).join('')));
   if (d.kind !== 'class') {
-    rows.push(row('반환', d.returns.map((r) => chip(r, 'ret')).join('')));
-    rows.push(row('예외', d.raises.map((r) => chip(r, 'raise')).join(''), 'raise-row'));
-    rows.push(row('지역 변수', d.locals.map((v) => varChip(v, 'local')).join('')));
-    rows.push(row('전역', [
-      ...d.globalsWritten.map((n) => chip(`${n} ✎`, 'global write', undefined, '', '전역 변수에 씀 (global)')),
-      ...d.globalsRead.filter((n) => !d.globalsWritten.includes(n)).map((n) => chip(n, 'global', undefined, '', '전역 변수 읽음')),
+    rows.push(row('Returns', d.returns.map((r) => chip(r, 'ret')).join('')));
+    rows.push(row('Raises', d.raises.map((r) => chip(r, 'raise')).join(''), 'raise-row'));
+    rows.push(row('Locals', d.locals.map((v) => varChip(v, 'local')).join('')));
+    rows.push(row('Globals', [
+      ...d.globalsWritten.map((n) => chip(`${n} ✎`, 'global write', undefined, '', 'Writes this global (global statement)')),
+      ...d.globalsRead.filter((n) => !d.globalsWritten.includes(n)).map((n) => chip(n, 'global', undefined, '', 'Reads this global')),
     ].join('')));
   }
   return rows.join('');

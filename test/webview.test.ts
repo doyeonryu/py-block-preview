@@ -139,7 +139,7 @@ test('list: switching modes renders one card per definition', () => {
     'User', 'User.greet', 'Repository', 'Repository.__init__', 'Repository.load', 'Repository.find',
     'load_config', 'unused_helper', 'fetch', 'main',
   ]);
-  assert.match($('header .title')!.textContent!, /클래스 2 · 함수 4 · 메서드 4/);
+  assert.match($('header .title')!.textContent!, /2 classes · 4 functions · 4 methods/);
 });
 
 test('list: flags functions that nothing in the file calls', () => {
@@ -197,9 +197,13 @@ test('escapes code text instead of injecting HTML', async () => {
   assert.match($('.sb.f-assign')!.textContent!, /<img/);
 });
 
+test('UI text is English', () => {
+  assert.doesNotMatch(w.document.body.textContent!, /[가-힣]/);
+});
+
 test('shows a message when there is no Python file', () => {
-  send({ type: 'empty', message: 'Python 파일을 열어주세요.' });
-  assert.equal($('.empty')!.textContent, 'Python 파일을 열어주세요.');
+  send({ type: 'empty', message: 'Open a Python file to see its blocks.' });
+  assert.equal($('.empty')!.textContent, 'Open a Python file to see its blocks.');
 });
 
 test('no runtime errors', () => {

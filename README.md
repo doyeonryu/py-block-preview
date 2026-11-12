@@ -36,15 +36,15 @@ Works in VS Code 1.90+ and VS Code–based editors that accept `.vsix` files (Cu
 
 ## Usage
 
-Open a Python file, then click the preview icon in the editor title bar or press <kbd>Ctrl</kbd>+<kbd>K</kbd> <kbd>B</kbd> (<kbd>Cmd</kbd>+<kbd>K</kbd> <kbd>B</kbd> on macOS). The preview follows whichever Python file is active.
+Open a Python file, then click the **Block Preview** icon in the editor title bar or press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>P</kbd> (<kbd>Cmd</kbd>+<kbd>Alt</kbd>+<kbd>P</kbd> on macOS). Press it again to close the preview. The preview follows whichever Python file is active.
 
 | Action | How |
 |---|---|
 | Pan | Drag the background, or scroll |
 | Zoom | <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + scroll, or the `−` `+` buttons |
-| Fit the whole file | **맞춤** (Fit) |
-| Blocks ↔ summary | **블록** / **요약** |
-| Canvas ↔ list | **캔버스** / **목록** |
+| Fit the whole file | **Fit** |
+| Blocks ↔ summary | **Blocks** / **Summary** |
+| Canvas ↔ list | **Canvas** / **List** |
 | Go to code | Click a block |
 | Go to a called function | Click a blue call chip (<kbd>Ctrl</kbd>/<kbd>Cmd</kbd>+click goes to the call site instead) |
 | Find a function | Type in the search box; <kbd>Enter</kbd> jumps to the first match |
@@ -63,7 +63,6 @@ Open a Python file, then click the preview icon in the editor title bar or press
 
 - Calls are resolved **within one file**. Imported functions appear as external calls.
 - Type inference is deliberately shallow; dynamic dispatch, `getattr`, and untyped return values are not followed.
-- The UI text is currently in Korean. Translations are welcome.
 
 ## How it works
 

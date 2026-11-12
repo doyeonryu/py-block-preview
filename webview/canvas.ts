@@ -19,7 +19,7 @@ export function canvasHTML(m: ModuleModel, o: CanvasOpts): string {
   if (m.imports.length || m.globals.length) units.push(globalsBlock(m));
   if (m.mainFlow.length) units.push(mainStack(m));
   for (const d of m.defs) units.push(d.kind === 'class' ? classBlock(d, o, true) : fnStack(d, o, true));
-  const empty = units.length ? '' : '<div class="empty">빈 파일입니다.</div>';
+  const empty = units.length ? '' : '<div class="empty">This file is empty.</div>';
   return `<div class="viewport" id="viewport">
       <div class="world ${o.detail}" id="world">
         <svg class="edges" id="edges" xmlns="http://www.w3.org/2000/svg"></svg>
@@ -37,15 +37,15 @@ export function inspectorHTML(id?: string): string {
   return `<div class="insp-head">
       <span class="insp-title" data-jump ${spanAttrs(d.span)}><b>${esc(d.qualname)}</b><span class="sig">${esc(sig)}</span></span>
       <span class="muted">${lines(d.span)}</span>
-      <button class="insp-close" data-action="close-inspector" title="닫기">×</button>
+      <button class="insp-close" data-action="close-inspector" title="Close">×</button>
     </div>
     ${d.doc ? `<div class="doc">${esc(d.doc)}</div>` : ''}
     ${detailRows(d)}`;
 }
 
 function badges(d: DefCard): string {
-  return (d.hasError ? '<span class="bdg err" title="구문 오류">!</span>' : '')
-    + (isUncalled(d) ? '<span class="bdg warn" title="이 파일 안에서는 호출하는 곳이 없습니다">미사용</span>' : '');
+  return (d.hasError ? '<span class="bdg err" title="Syntax error">!</span>' : '')
+    + (isUncalled(d) ? '<span class="bdg warn" title="Nothing in this file calls it">unused</span>' : '');
 }
 
 function dimCls(d: DefCard, o: CanvasOpts): string {
@@ -89,7 +89,7 @@ function mainStack(m: ModuleModel): string {
   const first = m.mainFlow[0].span, last = m.mainFlow[m.mainFlow.length - 1].span;
   const span = { sl: first.sl, sc: first.sc, el: last.el, ec: last.ec };
   return `<div class="stk fn main unit" data-unit="&lt;module&gt;" data-card="&lt;module&gt;" id="card-&lt;module&gt;" ${spanAttrs(span)}>
-    <div class="hat main-hat" data-jump ${spanAttrs(span)}><span class="hat-kw">▶ 실행</span><span class="hat-name">최상위 코드</span></div>
+    <div class="hat main-hat" data-jump ${spanAttrs(span)}><span class="hat-kw">▶ run</span><span class="hat-name">top-level code</span></div>
     <div class="stmts">${stmts(m.mainFlow)}</div>
     <div class="sum">${renderCalls(m.mainCalls.filter((c) => c.target))}</div>
   </div>`;
@@ -99,9 +99,9 @@ function globalsBlock(m: ModuleModel): string {
   const imports = m.imports.flatMap((i) => i.names.map((n) => chip(n, 'import', i.span, '', i.text))).join('');
   const globals = m.globals.map((g) => chip(g.name, 'gvar', g.span, '', g.detail ?? '')).join('');
   return `<div class="stk vars unit" data-unit="@globals">
-    <div class="hat vars-hat"><span class="hat-kw">변수</span><span class="hat-name">import · 전역</span></div>
+    <div class="hat vars-hat"><span class="hat-kw">module</span><span class="hat-name">imports · globals</span></div>
     ${imports ? `<div class="vars-row"><span class="vars-label">import</span>${imports}</div>` : ''}
-    ${globals ? `<div class="vars-row"><span class="vars-label">전역</span>${globals}</div>` : ''}
+    ${globals ? `<div class="vars-row"><span class="vars-label">globals</span>${globals}</div>` : ''}
   </div>`;
 }
 
@@ -110,11 +110,11 @@ function summary(d: DefCard): string {
   const ext = d.calls.filter((c) => !c.target).length;
   const parts = [
     internal,
-    ext ? `<span class="sum-note">외부 호출 ${ext}</span>` : '',
+    ext ? `<span class="sum-note">${ext} external call${ext > 1 ? 's' : ''}</span>` : '',
     d.raises.length ? `<span class="sum-note raise">raise ${esc(d.raises.join(', '))}</span>` : '',
-    d.globalsWritten.length ? `<span class="sum-note warn">전역 쓰기 ${esc(d.globalsWritten.join(', '))}</span>` : '',
+    d.globalsWritten.length ? `<span class="sum-note warn">writes ${esc(d.globalsWritten.join(', '))}</span>` : '',
   ].join('');
-  return parts || '<span class="sum-note">호출 없음</span>';
+  return parts || '<span class="sum-note">no calls</span>';
 }
 
 // ---- statement blocks ----

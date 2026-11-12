@@ -2,7 +2,7 @@
   "name": "py-block-preview",
   "displayName": "Python Block Preview",
   "description": "See the structure of Python code at a glance — functions, classes, call relationships and control flow as live-synced cards beside your editor.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "doyeonryu",
   "author": "doyeonryu",
   "license": "MIT",
@@ -45,8 +45,8 @@
     "commands": [
       {
         "command": "pyBlockPreview.openToSide",
-        "title": "Open Block Preview to the Side",
-        "category": "Python Block Preview",
+        "title": "Block Preview",
+        "category": "Python",
         "icon": "$(type-hierarchy-sub)"
       }
     ],
@@ -54,23 +54,23 @@
       "editor/title": [
         {
           "command": "pyBlockPreview.openToSide",
-          "when": "editorLangId == python",
+          "when": "editorLangId == python || activeWebviewPanelId == 'pyBlockPreview'",
           "group": "navigation"
         }
       ],
       "commandPalette": [
         {
           "command": "pyBlockPreview.openToSide",
-          "when": "editorLangId == python"
+          "when": "editorLangId == python || activeWebviewPanelId == 'pyBlockPreview'"
         }
       ]
     },
     "keybindings": [
       {
         "command": "pyBlockPreview.openToSide",
-        "key": "ctrl+k b",
-        "mac": "cmd+k b",
-        "when": "editorLangId == python"
+        "key": "ctrl+alt+p",
+        "mac": "cmd+alt+p",
+        "when": "editorLangId == python || activeWebviewPanelId == 'pyBlockPreview'"
       }
     ]
   },
