@@ -1,0 +1,354 @@
+/* VS Code 테마 변수를 사용해 라이트/다크 테마 모두 대응 */
+:root {
+  --c-class: #7c6cf0;
+  --c-func: #3b8eea;
+  --c-method: #23a6a6;
+  --c-if: #e0882b;
+  --c-loop: #d4a72c;
+  --c-try: #c2557a;
+  --c-with: #3aa776;
+  --c-ret: #8a8f98;
+  --c-assign: #d0743c;
+  --c-call: #3b8eea;
+  --c-err: var(--vscode-errorForeground, #f14c4c);
+  --c-warn: var(--vscode-editorWarning-foreground, #cca700);
+  --border: var(--vscode-panel-border, rgba(128, 128, 128, 0.35));
+  --card-bg: var(--vscode-sideBar-background, rgba(128, 128, 128, 0.06));
+  --muted: var(--vscode-descriptionForeground, #888);
+  --chip-bg: var(--vscode-badge-background, rgba(128, 128, 128, 0.2));
+  --mono: var(--vscode-editor-font-family, Consolas, monospace);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 12px 40px;
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size, 13px);
+  color: var(--vscode-foreground);
+  background: var(--vscode-editor-background);
+  line-height: 1.45;
+}
+
+.muted { color: var(--muted); font-size: 0.92em; }
+.pad { padding: 12px; }
+.empty { padding: 40px 12px; text-align: center; color: var(--muted); }
+.count { color: var(--muted); font-weight: normal; margin-left: 4px; font-size: 0.9em; }
+
+/* ---------- header ---------- */
+header {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--vscode-editor-background);
+  padding: 10px 0 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+.file { font-weight: 600; font-size: 1.1em; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; align-items: center; }
+.group { display: inline-flex; gap: 1px; }
+.group button:first-child { border-radius: 3px 0 0 3px; }
+.group button:last-child { border-radius: 0 3px 3px 0; }
+.group button:only-child { border-radius: 3px; }
+.group button { border-radius: 0; }
+button.seg.on { background: var(--vscode-button-background); color: var(--vscode-button-foreground); }
+.toolbar input {
+  flex: 1; min-width: 80px;
+  background: var(--vscode-input-background); color: var(--vscode-input-foreground);
+  border: 1px solid var(--vscode-input-border, var(--border)); border-radius: 3px; padding: 3px 6px;
+  font: inherit;
+}
+.toolbar input:focus { outline: 1px solid var(--vscode-focusBorder); }
+button {
+  background: var(--vscode-button-secondaryBackground, var(--chip-bg));
+  color: var(--vscode-button-secondaryForeground, inherit);
+  border: none; border-radius: 3px; padding: 3px 8px; cursor: pointer; font: inherit; font-size: 0.92em;
+  white-space: nowrap;
+}
+button:hover { background: var(--vscode-button-secondaryHoverBackground, var(--chip-bg)); }
+
+/* ---------- badges & chips ---------- */
+.badge {
+  display: inline-block; font-size: 0.8em; padding: 0 6px; border-radius: 8px; margin-right: 6px;
+  border: 1px solid currentColor; cursor: default;
+}
+.badge.err { color: var(--c-err); cursor: pointer; }
+.badge.warn { color: var(--c-warn); }
+.mini { font-size: 0.82em; color: var(--muted); margin-left: 8px; }
+.mini.warn { color: var(--c-warn); }
+
+.chips, .row-body { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip {
+  display: inline-block; font-family: var(--mono); font-size: 0.88em;
+  padding: 0 6px; border-radius: 3px; background: var(--chip-bg);
+  color: var(--vscode-badge-foreground, inherit);
+  max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.chip[data-jump], .chip[data-target] { cursor: pointer; }
+.chip[data-jump]:hover, .chip[data-target]:hover { outline: 1px solid var(--vscode-focusBorder); }
+.chip.link { background: color-mix(in srgb, var(--c-func) 22%, transparent); color: var(--vscode-textLink-foreground); }
+.chip.ext { background: transparent; border: 1px dashed var(--border); color: var(--muted); }
+.chip.ret { background: color-mix(in srgb, var(--c-ret) 22%, transparent); color: inherit; }
+.chip.raise { background: color-mix(in srgb, var(--c-err) 18%, transparent); color: var(--c-err); }
+.chip.local { background: color-mix(in srgb, var(--c-assign) 18%, transparent); color: inherit; }
+.chip.attr { background: color-mix(in srgb, var(--c-class) 20%, transparent); color: inherit; }
+.chip.global { background: color-mix(in srgb, var(--c-warn) 15%, transparent); color: inherit; }
+.chip.global.write { background: color-mix(in srgb, var(--c-warn) 35%, transparent); font-weight: 600; }
+.chip.import { background: color-mix(in srgb, var(--c-with) 18%, transparent); color: inherit; }
+
+/* ---------- sections ---------- */
+.sec { margin-bottom: 10px; }
+.sec-head { font-weight: 600; cursor: pointer; padding: 2px 0; user-select: none; }
+.sec-body { padding: 4px 0 4px 16px; }
+.sec.closed .sec-body { display: none; }
+.twisty { display: inline-block; width: 14px; color: var(--muted); cursor: pointer; user-select: none; }
+
+.vars { display: flex; flex-direction: column; gap: 2px; }
+.var { font-family: var(--mono); font-size: 0.9em; cursor: pointer; padding: 1px 4px; border-radius: 3px; }
+.var:hover { background: var(--vscode-list-hoverBackground); }
+.var-name { font-weight: 600; }
+.var-detail { color: var(--muted); margin-left: 8px; }
+
+/* ---------- cards ---------- */
+.cards { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.card {
+  --accent: var(--c-func);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 5px;
+  background: var(--card-bg);
+  transition: box-shadow 0.15s;
+}
+.card.k-class { --accent: var(--c-class); }
+.card.k-method { --accent: var(--c-method); }
+.card.active-card { box-shadow: 0 0 0 1px var(--vscode-focusBorder); }
+.card.flash { animation: flash 1s ease-out; }
+@keyframes flash {
+  0% { box-shadow: 0 0 0 3px var(--vscode-focusBorder); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+
+.card-head { display: flex; align-items: flex-start; gap: 4px; padding: 6px 8px; }
+.card-head .twisty { padding-top: 1px; }
+.head-main { flex: 1; min-width: 0; cursor: pointer; font-family: var(--mono); overflow-wrap: anywhere; }
+.head-main:hover .name { text-decoration: underline; }
+.head-right { flex-shrink: 0; text-align: right; white-space: nowrap; }
+.decorators { color: var(--c-if); font-size: 0.85em; }
+.kind {
+  font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--accent); font-weight: 700; margin-right: 6px; font-family: var(--vscode-font-family);
+}
+.name { font-weight: 700; }
+.sig { color: var(--muted); }
+.ret { color: var(--c-method); }
+
+.card-body { padding: 0 10px 8px 26px; }
+.doc { font-style: italic; color: var(--muted); margin-bottom: 4px; }
+.row { display: flex; gap: 8px; padding: 2px 0; align-items: baseline; }
+.row-label { flex: 0 0 64px; color: var(--muted); font-size: 0.85em; white-space: nowrap; }
+.row-body { flex: 1; min-width: 0; }
+.children { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+
+.flow-toggle { margin-top: 4px; cursor: pointer; color: var(--muted); font-size: 0.9em; user-select: none; }
+.flow-toggle:hover { color: var(--vscode-foreground); }
+
+/* ---------- flow ---------- */
+.flow { margin-top: 4px; font-family: var(--mono); font-size: 0.88em; }
+.f { --fc: var(--c-ret); }
+.f-label {
+  padding: 1px 6px; border-radius: 3px; cursor: pointer;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.f-label:hover { background: var(--vscode-list-hoverBackground); }
+.f-kind {
+  display: inline-block; min-width: 46px; margin-right: 6px;
+  font-size: 0.85em; font-weight: 700; color: var(--fc); font-family: var(--vscode-font-family);
+}
+.f-container > .f-label { background: color-mix(in srgb, var(--fc) 13%, transparent); }
+.f-children { margin-left: 10px; padding-left: 8px; border-left: 2px solid color-mix(in srgb, var(--fc) 55%, transparent); }
+.f.active > .f-label { outline: 1px solid var(--vscode-focusBorder); background: var(--vscode-editor-selectionBackground); }
+
+.f-if, .f-elif, .f-else, .f-match, .f-case { --fc: var(--c-if); }
+.f-for, .f-while, .f-break, .f-continue { --fc: var(--c-loop); }
+.f-try, .f-except, .f-finally, .f-raise { --fc: var(--c-try); }
+.f-with { --fc: var(--c-with); }
+.f-assign { --fc: var(--c-assign); }
+.f-call, .f-await { --fc: var(--c-call); }
+.f-return, .f-yield { --fc: var(--c-method); }
+.f-def, .f-class { --fc: var(--c-class); }
+.f-raise > .f-label { color: var(--c-err); }
+.f-error { --fc: var(--c-err); }
+.f-error > .f-label { color: var(--c-err); text-decoration: wavy underline; }
+
+/* =====================================================================
+   Canvas view — block workspace
+   ===================================================================== */
+:root {
+  --b-func: #4c7fe0;
+  --b-method: #1d9a92;
+  --b-class: #8a63d2;
+  --b-main: #c78f00;
+  --b-vars: #d9622b;
+  --b-if: #e08a1a;
+  --b-loop: #b8860b;
+  --b-try: #c4487a;
+  --b-with: #2c9a66;
+  --b-match: #cf7a12;
+  --b-assign: #e0702f;
+  --b-call: #3f73d1;
+  --b-return: #6a7385;
+  --b-raise: #cf3f3f;
+  --b-misc: #7a8091;
+  --block-text: #ffffff;
+  --grid: color-mix(in srgb, var(--vscode-foreground) 7%, transparent);
+}
+
+body.mode-canvas { height: 100vh; overflow: hidden; padding: 0; display: flex; flex-direction: column; }
+body.mode-canvas #app { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+body.mode-canvas header { position: static; padding: 8px 12px; margin: 0; }
+body.mode-canvas .toolbar input { max-width: 220px; }
+
+.viewport {
+  position: relative; flex: 1; overflow: hidden; cursor: grab;
+  background-color: var(--vscode-editor-background);
+  background-image: radial-gradient(var(--grid) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+body.panning .viewport, body.panning .viewport * { cursor: grabbing !important; user-select: none; }
+.world { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.edges { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
+.edge { fill: none; stroke: var(--muted); stroke-width: 1.5; opacity: 0.45; }
+.arrow-head { fill: var(--muted); }
+.world.focus .edge { opacity: 0.08; }
+.world.focus .edge.hl { opacity: 1; stroke: var(--vscode-focusBorder); stroke-width: 2.5; }
+.world.focus .unit { opacity: 0.35; transition: opacity 0.12s; }
+.world.focus .unit:has(.rel), .world.focus .unit.rel { opacity: 1; }
+
+.zoom-ind {
+  position: absolute; left: 10px; bottom: 8px; font-size: 11px; color: var(--muted);
+  background: var(--vscode-editor-background); padding: 1px 6px; border-radius: 3px; pointer-events: none;
+}
+
+/* ---- stacks ---- */
+.stk { --bc: var(--b-func); font-family: var(--mono); font-size: 12px; line-height: 1.35; }
+/* max-content: measure the real width even though the world itself has no width yet */
+.stk.unit { position: absolute; width: max-content; max-width: 420px; }
+.stk.dim { opacity: 0.2; }
+.stk.k-method { --bc: var(--b-method); }
+.stk.main { --bc: var(--b-main); }
+.stk.cls { --bc: var(--b-class); }
+.stk.vars { --bc: var(--b-vars); }
+.stk.flash > .hat { animation: flash 1s ease-out; }
+.stk.selected > .hat, .stk.active-card > .hat { box-shadow: 0 0 0 2px var(--vscode-focusBorder); }
+
+.deco { color: var(--b-if); font-size: 11px; padding-left: 4px; }
+
+/* hat block: rounded top, like an event/definition block */
+.hat {
+  background: var(--bc); color: var(--block-text);
+  padding: 7px 10px 6px; border-radius: 14px 14px 4px 4px;
+  cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+}
+.hat-kw { font-family: var(--vscode-font-family); font-size: 10px; font-weight: 700; text-transform: uppercase; opacity: 0.85; margin-right: 6px; }
+.hat-name { font-weight: 700; }
+.hat-sig { opacity: 0.8; }
+.hat-ret { opacity: 0.9; margin-left: 4px; }
+.bdg {
+  display: inline-block; margin-left: 6px; padding: 0 5px; border-radius: 7px; font-size: 10px;
+  font-family: var(--vscode-font-family); background: rgba(0, 0, 0, 0.28); vertical-align: 1px;
+}
+.bdg.err { background: var(--c-err); }
+.bdg.warn { background: rgba(0, 0, 0, 0.35); color: #ffd866; }
+
+/* statement blocks */
+.stmts { display: flex; flex-direction: column; gap: 1px; padding-top: 1px; }
+.sb, .cb-head {
+  --bc: var(--b-misc);
+  background: var(--bc); color: var(--block-text);
+  padding: 3px 9px; border-radius: 4px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px;
+  cursor: pointer; box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+}
+.sb b, .cb-head b { font-family: var(--vscode-font-family); font-size: 11px; margin-right: 2px; }
+.sb:hover, .cb-head:hover { filter: brightness(1.12); }
+.sb.active, .cb-head.active { box-shadow: 0 0 0 2px var(--vscode-focusBorder); filter: brightness(1.15); position: relative; z-index: 1; }
+
+/* C-shaped blocks for if / for / while / try / with / match */
+.cb { --bc: var(--b-misc); display: flex; flex-direction: column; }
+.cb-head { border-radius: 4px 4px 0 0; }
+.cb-head + .cb-arm { border-left: 12px solid var(--bc); padding: 2px 0 2px 2px; display: flex; flex-direction: column; gap: 1px; }
+.cb-arm + .cb-head { border-radius: 0 4px 0 0; }
+.cb-foot { height: 9px; background: var(--bc); border-radius: 0 0 4px 4px; }
+.cb-empty { height: 8px; }
+
+.f-if, .f-elif, .f-else { --bc: var(--b-if); }
+.f-for, .f-while, .f-break, .f-continue { --bc: var(--b-loop); }
+.f-try, .f-except, .f-finally { --bc: var(--b-try); }
+.f-with { --bc: var(--b-with); }
+.f-match, .f-case { --bc: var(--b-match); }
+.f-assign, .f-global, .f-del { --bc: var(--b-assign); }
+.f-call, .f-await, .f-import { --bc: var(--b-call); }
+.f-return, .f-yield, .f-pass { --bc: var(--b-return); }
+.f-raise, .f-assert { --bc: var(--b-raise); }
+.f-def, .f-class { --bc: var(--b-class); }
+.f-error { --bc: var(--c-err); }
+.sb.f-error { text-decoration: wavy underline; }
+/* an else directly after a loop/try keeps the parent's colour */
+.cb.f-for > .cb-head.f-else, .cb.f-while > .cb-head.f-else { --bc: var(--b-loop); }
+.cb.f-try > .cb-head.f-else { --bc: var(--b-try); }
+.cb.f-for > .cb-arm, .cb.f-while > .cb-arm { --bc: var(--b-loop); }
+.cb.f-try > .cb-arm { --bc: var(--b-try); }
+.cb.f-if > .cb-arm, .cb.f-if > .cb-foot { --bc: var(--b-if); }
+.cb > .cb-arm { border-left-color: var(--bc); }
+
+/* summary line (shown in summary mode) */
+.sum {
+  display: none; flex-wrap: wrap; gap: 3px; padding: 5px 8px 6px;
+  background: color-mix(in srgb, var(--bc) 14%, var(--vscode-editor-background));
+  border: 1px solid color-mix(in srgb, var(--bc) 45%, transparent); border-top: none; border-radius: 0 0 6px 6px;
+  font-size: 11px;
+}
+.sum-note { color: var(--muted); font-family: var(--vscode-font-family); }
+.sum-note.raise { color: var(--c-err); }
+.sum-note.warn { color: var(--c-warn); }
+.world.summary .stmts { display: none; }
+.world.summary .sum { display: flex; }
+.world.summary .hat { border-radius: 14px 14px 0 0; }
+
+.nested { margin: 6px 0 0 14px; display: flex; flex-direction: column; gap: 8px; }
+
+/* class container */
+.stk.cls {
+  background: color-mix(in srgb, var(--bc) 10%, var(--vscode-editor-background));
+  border: 2px solid var(--bc); border-radius: 16px 16px 8px 8px;
+}
+.stk.cls > .hat { border-radius: 13px 13px 0 0; }
+.cls-attrs { display: flex; flex-wrap: wrap; gap: 3px; padding: 6px 10px 0; }
+.cls-body { display: flex; flex-direction: column; gap: 12px; padding: 10px 12px 4px; }
+.cls-foot { height: 8px; }
+
+/* globals / imports block */
+.stk.vars {
+  background: color-mix(in srgb, var(--bc) 10%, var(--vscode-editor-background));
+  border: 2px solid var(--bc); border-radius: 16px 16px 8px 8px; padding-bottom: 6px; max-width: 360px;
+}
+.stk.vars > .hat { border-radius: 13px 13px 0 0; cursor: default; }
+.vars-row { display: flex; flex-wrap: wrap; gap: 3px; padding: 6px 10px 0; align-items: baseline; }
+.vars-label { color: var(--muted); font-size: 10px; font-family: var(--vscode-font-family); margin-right: 4px; width: 38px; }
+.chip.gvar { background: color-mix(in srgb, var(--b-vars) 30%, transparent); color: inherit; }
+
+/* inspector panel */
+.inspector:empty { display: none; }
+.inspector {
+  position: absolute; right: 10px; bottom: 10px; width: min(380px, calc(100% - 20px)); max-height: 55%;
+  overflow: auto; cursor: default;
+  background: var(--vscode-editorWidget-background, var(--vscode-editor-background));
+  border: 1px solid var(--vscode-editorWidget-border, var(--border)); border-radius: 6px;
+  padding: 8px 10px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+.insp-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; font-family: var(--mono); }
+.insp-title { flex: 1; min-width: 0; cursor: pointer; overflow-wrap: anywhere; }
+.insp-title .sig { color: var(--muted); }
+.insp-close { padding: 0 6px; font-size: 14px; line-height: 1.2; }

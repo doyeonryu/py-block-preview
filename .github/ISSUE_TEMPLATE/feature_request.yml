@@ -1,0 +1,16 @@
+name: Feature request
+description: Suggest an idea or improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to understand or do?
+      description: Describe the situation (for example, reviewing a specific kind of code) rather than only the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea
+      description: How could the preview help? Sketches or screenshots welcome.

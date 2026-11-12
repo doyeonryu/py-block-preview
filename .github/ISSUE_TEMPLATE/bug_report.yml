@@ -1,0 +1,24 @@
+name: Bug report
+description: Something is shown wrong, missing, or the preview breaks
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect to see, and what did you see instead? Screenshots help.
+    validations:
+      required: true
+  - type: textarea
+    id: code
+    attributes:
+      label: Python code that reproduces it
+      description: The smallest snippet that shows the problem.
+      render: python
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: Extension version, editor and version (e.g. 0.1.0, VS Code 1.96 / Cursor 0.45), OS
+    validations:
+      required: true
